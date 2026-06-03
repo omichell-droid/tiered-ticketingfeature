@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shamiri Hub – Support Tickets</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.47.0/tabler-icons.min.css">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:#1a73e8;--blue-light:#e8f0fe;--blue-dark:#1557b0;
+  --teal:#0f9d8b;--teal-light:#e0f5f3;--teal-dark:#0a7068;
+  --purple:#7c3aed;--purple-light:#ede9fe;--purple-dark:#5b21b6;
+  --orange:#ea8600;--orange-light:#fff3e0;--orange-dark:#b45309;
+  --green:#1e8e3e;--green-light:#e6f4ea;--green-dark:#166431;
+  --red:#d93025;--red-light:#fce8e6;--red-dark:#a50e0e;
+  --amber:#f29900;--amber-light:#fef7e0;--amber-dark:#b06000;
+  --gray-50:#f8f9fa;--gray-100:#f1f3f4;--gray-200:#e8eaed;
+  --gray-300:#dadce0;--gray-500:#80868b;--gray-700:#5f6368;--gray-900:#202124;
+  --white:#fff;--border:#dadce0;
+  --shadow-sm:0 1px 3px rgba(0,0,0,0.08);--shadow-md:0 4px 16px rgba(0,0,0,0.12);
+  --radius:8px;--radius-lg:12px;--radius-xl:16px;
+  --font:'DM Sans',sans-serif;--mono:'DM Mono',monospace;
+}
+body{font-family:var(--font);background:var(--gray-50);color:var(--gray-900);font-size:14px;line-height:1.5;min-height:100vh;}
+
+/* NAV */
+.topnav{background:var(--white);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 24px;height:52px;position:sticky;top:0;z-index:100;}
+.topnav-brand{font-size:16px;font-weight:600;color:var(--blue);margin-right:32px;white-space:nowrap;}
+.topnav-tabs{display:flex;height:100%;flex:1;overflow-x:auto;}
+.topnav-tab{display:flex;align-items:center;gap:6px;padding:0 14px;height:100%;font-size:13px;color:var(--gray-700);cursor:pointer;border-bottom:2px solid transparent;text-decoration:none;transition:color 0.15s;white-space:nowrap;background:none;border-top:none;border-left:none;border-right:none;font-family:var(--font);}
+.topnav-tab:hover{color:var(--blue);}
+.topnav-tab.active{color:var(--blue);border-bottom-color:var(--blue);font-weight:500;}
+.topnav-tab i{font-size:16px;}
+.topnav-right{display:flex;align-items:center;gap:8px;margin-left:auto;}
+.topnav-btn{display:flex;align-items:center;gap:5px;padding:6px 10px;border-radius:var(--radius);font-size:13px;color:var(--gray-700);background:none;border:none;cursor:pointer;font-family:var(--font);transition:background 0.15s;}
+.topnav-btn:hover{background:var(--gray-100);}
+.notif-badge{background:var(--red);color:white;border-radius:999px;font-size:10px;min-width:16px;height:16px;display:inline-flex;align-items:center;justify-content:center;padding:0 4px;font-weight:600;}
+.avatar{width:30px;height:30px;border-radius:50%;background:var(--blue-light);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:var(--blue);}
+
+/* PAGES */
+.page{display:none;}
+.page.active{display:block;}
+.page-header{background:var(--white);border-bottom:1px solid var(--border);padding:20px 28px 0;}
+.page-title{font-size:22px;font-weight:600;margin-bottom:14px;}
+.page-body{padding:20px 28px;}
+
+/* STAT CHIPS */
+.page-stats{display:flex;gap:24px;margin-bottom:0;}
+.stat-chip{display:flex;flex-direction:column;padding-bottom:14px;}
+.stat-chip .num{font-size:20px;font-weight:600;}
+.stat-chip .lbl{font-size:11px;color:var(--gray-500);text-transform:uppercase;letter-spacing:0.5px;}
+
+/* TABS */
+.tab-strip{display:flex;border-bottom:none;gap:0;overflow-x:auto;}
+.tab-pill{padding:8px 16px;font-size:13px;color:var(--gray-500);cursor:pointer;border-bottom:2px solid transparent;font-weight:500;transition:color 0.12s;white-space:nowrap;flex-shrink:0;}
+.tab-pill.active{color:var(--blue);border-bottom-color:var(--blue);}
+.tab-pill:hover:not(.active){color:var(--gray-700);}
+
+/* TOOLBAR */
+.toolbar{display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap;}
+.search-wrap{position:relative;flex:1;min-width:180px;max-width:280px;}
+.search-wrap i{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--gray-500);font-size:15px;}
+.search-wrap input{width:100%;padding:7px 12px 7px 32px;border:1px solid var(--border);border-radius:var(--radius);font-family:var(--font);font-size:13px;background:var(--white);outline:none;color:var(--gray-900);}
+.search-wrap input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(26,115,232,0.12);}
+.filter-select{padding:7px 26px 7px 10px;border:1px solid var(--border);border-radius:var(--radius);font-family:var(--font);font-size:13px;background:var(--white) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='11' viewBox='0 0 24 24' fill='none' stroke='%2380868b' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") no-repeat right 7px center;-webkit-appearance:none;appearance:none;color:var(--gray-700);outline:none;cursor:pointer;}
+.filter-select:focus{border-color:var(--blue);}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:var(--radius);font-size:13px;font-family:var(--font);cursor:pointer;border:1px solid var(--border);background:var(--white);color:var(--gray-700);transition:background 0.15s,border-color 0.15s;font-weight:500;white-space:nowrap;}
+.btn:hover{background:var(--gray-100);}
+.btn-primary{background:var(--blue);border-color:var(--blue);color:white;}
+.btn-primary:hover{background:var(--blue-dark);border-color:var(--blue-dark);}
+.btn-danger{background:var(--red);border-color:var(--red);color:white;}
+.btn-danger:hover{background:var(--red-dark);}
+.btn-sm{padding:5px 10px;font-size:12px;}
+
+/* TABLE */
+.table-wrap{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;}
+.tbl{width:100%;border-collapse:collapse;font-size:13px;}
+.tbl thead th{padding:10px 12px;text-align:left;font-weight:500;font-size:12px;color:var(--gray-500);border-bottom:1px solid var(--border);background:var(--gray-50);white-space:nowrap;}
+.tbl tbody tr{border-bottom:1px solid var(--gray-100);transition:background 0.1s;cursor:pointer;}
+.tbl tbody tr:last-child{border-bottom:none;}
+.tbl tbody tr:hover{background:var(--gray-50);}
+.tbl tbody td{padding:11px 12px;vertical-align:middle;}
+
+/* BADGES */
+.badge{display:inline-flex;align-items:center;gap:3px;padding:3px 8px;border-radius:999px;font-size:11px;font-weight:500;white-space:nowrap;}
+.badge-open{background:var(--blue-light);color:var(--blue-dark);}
+.badge-inprogress{background:var(--amber-light);color:var(--amber-dark);}
+.badge-escalated{background:var(--red-light);color:var(--red-dark);}
+.badge-resolved{background:var(--green-light);color:var(--green-dark);}
+.badge-closed{background:var(--gray-100);color:var(--gray-500);}
+.badge-pending{background:var(--purple-light);color:var(--purple-dark);}
+
+/* TIER BADGES */
+.tier-badge{display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:var(--radius);font-size:11px;font-weight:600;font-family:var(--mono);white-space:nowrap;}
+.tb-t1{background:var(--blue-light);color:var(--blue-dark);border:1px solid #c5d5f8;}
+.tb-t2{background:var(--amber-light);color:var(--amber-dark);border:1px solid #fde293;}
+.tb-t3-data{background:var(--teal-light);color:var(--teal-dark);border:1px solid #9fe1d3;}
+.tb-t3-ops{background:var(--orange-light);color:var(--orange-dark);border:1px solid #ffd580;}
+.tb-t3-hub{background:var(--purple-light);color:var(--purple-dark);border:1px solid #c4b5fd;}
+.tb-t3-clin{background:var(--green-light);color:var(--green-dark);border:1px solid #a7d7b0;}
+.tb-hq{background:var(--red-light);color:var(--red-dark);border:1px solid #f9c0bb;}
+
+/* PRIORITY */
+.priority-dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:5px;flex-shrink:0;}
+.p-low{background:var(--green);}
+.p-medium{background:var(--amber);}
+.p-high{background:var(--red);}
+
+/* ACTION DOTS */
+.action-dots{display:flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:6px;border:none;background:none;cursor:pointer;color:var(--gray-500);font-size:16px;transition:background 0.12s;}
+.action-dots:hover{background:var(--gray-100);color:var(--gray-900);}
+
+/* OVERLAY / MODAL */
+.overlay{display:none;position:fixed;inset:0;background:rgba(32,33,36,0.5);z-index:200;align-items:flex-start;justify-content:center;padding:40px 24px;overflow-y:auto;}
+.overlay.open{display:flex;}
+.modal{background:var(--white);border-radius:var(--radius-lg);width:100%;max-width:560px;margin:auto;box-shadow:var(--shadow-md);animation:slide-up 0.18s ease;}
+.modal-wide{max-width:760px;}
+@keyframes slide-up{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.modal-header{padding:16px 20px 12px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.modal-title{font-size:15px;font-weight:600;}
+.modal-close{width:28px;height:28px;display:flex;align-items:center;justify-content:center;border-radius:6px;border:none;background:none;cursor:pointer;color:var(--gray-500);font-size:18px;transition:background 0.12s;}
+.modal-close:hover{background:var(--gray-100);color:var(--gray-900);}
+.modal-info-bar{margin:12px 20px 0;background:var(--blue-light);border-radius:var(--radius);padding:8px 12px;display:flex;align-items:center;gap:8px;font-size:13px;color:var(--blue-dark);}
+.modal-info-bar i{font-size:15px;flex-shrink:0;}
+.modal-body{padding:16px 20px;}
+.modal-footer{padding:12px 20px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:flex-end;gap:10px;}
+
+/* FORMS */
+.form-field{margin-bottom:13px;}
+.form-field label{display:block;font-size:12px;font-weight:500;color:var(--gray-700);margin-bottom:4px;}
+.form-field label .req{color:var(--red);margin-left:2px;}
+.form-field input,.form-field select,.form-field textarea{width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:var(--radius);font-family:var(--font);font-size:13px;color:var(--gray-900);background:var(--white);outline:none;transition:border-color 0.15s,box-shadow 0.15s;}
+.form-field input:focus,.form-field select:focus,.form-field textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(26,115,232,0.12);}
+.form-field textarea{resize:vertical;min-height:80px;line-height:1.5;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+
+/* STAR RATING */
+.star-group{display:flex;gap:4px;margin-top:4px;}
+.star{font-size:22px;color:var(--gray-300);cursor:pointer;transition:color 0.1s;line-height:1;}
+.star.lit{color:#f9ab00;}
+
+/* ALERTS */
+.alert-box{padding:10px 12px;border-radius:var(--radius);font-size:13px;display:flex;align-items:flex-start;gap:8px;margin-bottom:12px;line-height:1.5;}
+.alert-box i{flex-shrink:0;margin-top:1px;font-size:15px;}
+.alert-danger{background:var(--red-light);color:var(--red-dark);border:1px solid #f9c0bb;}
+.alert-info{background:var(--blue-light);color:var(--blue-dark);border:1px solid #c5d5f8;}
+.alert-warning{background:var(--amber-light);color:var(--amber-dark);border:1px solid #fde293;}
+.alert-success{background:var(--green-light);color:var(--green-dark);border:1px solid #a7d7b0;}
+
+/* CONTEXT MENU */
+.ctx-menu{display:none;position:fixed;background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);box-shadow:var(--shadow-md);padding:6px 0;min-width:220px;z-index:300;animation:fade-in 0.1s ease;}
+.ctx-menu.open{display:block;}
+@keyframes fade-in{from{opacity:0;transform:scale(0.96)}to{opacity:1;transform:scale(1)}}
+.ctx-group-label{padding:4px 14px 2px;font-size:10px;text-transform:uppercase;letter-spacing:0.7px;color:var(--gray-500);font-weight:600;}
+.ctx-item{display:flex;align-items:center;gap:10px;padding:8px 14px;font-size:13px;color:var(--gray-700);cursor:pointer;transition:background 0.1s;}
+.ctx-item:hover{background:var(--gray-50);}
+.ctx-item i{font-size:15px;color:var(--gray-500);}
+.ctx-item.danger{color:var(--red);}
+.ctx-item.danger i{color:var(--red);}
+.ctx-divider{height:1px;background:var(--border);margin:4px 0;}
+
+/* TICKET DETAIL */
+.detail-grid{display:grid;grid-template-columns:1fr 260px;gap:18px;}
+.detail-section{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);margin-bottom:14px;overflow:hidden;}
+.detail-section-head{padding:9px 14px;border-bottom:1px solid var(--border);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;color:var(--gray-500);background:var(--gray-50);}
+.detail-section-body{padding:14px;}
+.meta-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--gray-100);font-size:13px;}
+.meta-row:last-child{border-bottom:none;}
+.meta-row .lbl{color:var(--gray-500);flex-shrink:0;margin-right:8px;}
+.comment{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--gray-100);font-size:13px;}
+.comment:last-child{border-bottom:none;}
+.comment-avatar{width:28px;height:28px;border-radius:50%;background:var(--blue-light);color:var(--blue);font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.comment-meta{font-size:11px;color:var(--gray-500);margin-bottom:3px;}
+.comment-meta strong{color:var(--gray-700);font-weight:500;}
+
+/* ESCALATION FLOW — new multi-tier design */
+.esc-flow{display:flex;flex-direction:column;gap:0;}
+.esc-row{display:flex;align-items:stretch;gap:0;}
+.esc-tier-label{writing-mode:vertical-rl;text-orientation:mixed;transform:rotate(180deg);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;padding:8px 6px;border-radius:var(--radius) 0 0 var(--radius);display:flex;align-items:center;justify-content:center;min-width:28px;flex-shrink:0;}
+.esc-nodes{display:flex;gap:6px;flex:1;align-items:stretch;}
+.esc-node{flex:1;padding:8px 10px;border-radius:var(--radius);font-size:11px;border:1.5px solid transparent;display:flex;flex-direction:column;gap:2px;min-width:90px;}
+.esc-node .en-title{font-weight:600;font-size:12px;}
+.esc-node .en-sub{font-size:10px;opacity:0.75;line-height:1.3;}
+.esc-node.active{border-width:2px;}
+.esc-connector{display:flex;justify-content:center;align-items:center;height:20px;}
+.esc-connector i{color:var(--gray-300);font-size:18px;}
+/* tier colours */
+.esc-t1{background:var(--blue-light);color:var(--blue-dark);}
+.esc-t1-lbl{background:#c5d5f8;color:var(--blue-dark);}
+.esc-t2{background:var(--amber-light);color:var(--amber-dark);}
+.esc-t2-lbl{background:#fde293;color:var(--amber-dark);}
+.esc-t3-data{background:var(--teal-light);color:var(--teal-dark);}
+.esc-t3-data-lbl{background:#9fe1d3;color:var(--teal-dark);}
+.esc-t3-ops{background:var(--orange-light);color:var(--orange-dark);}
+.esc-t3-ops-lbl{background:#ffd580;color:var(--orange-dark);}
+.esc-t3-hub{background:var(--purple-light);color:var(--purple-dark);}
+.esc-t3-hub-lbl{background:#c4b5fd;color:var(--purple-dark);}
+.esc-t3-clin{background:var(--green-light);color:var(--green-dark);}
+.esc-t3-clin-lbl{background:#a7d7b0;color:var(--green-dark);}
+.esc-hq{background:var(--red-light);color:var(--red-dark);}
+.esc-hq-lbl{background:#f9c0bb;color:var(--red-dark);}
+
+/* DROPDOWN */
+.dropdown-wrap{position:relative;}
+.dropdown-menu{display:none;position:absolute;top:calc(100% + 4px);right:0;background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);box-shadow:var(--shadow-md);min-width:190px;z-index:400;padding:4px 0;}
+.dropdown-menu.open{display:block;}
+.dd-section{padding:4px 12px 2px;font-size:10px;text-transform:uppercase;letter-spacing:0.7px;color:var(--gray-500);font-weight:600;}
+.dd-item{display:flex;align-items:center;gap:8px;padding:8px 12px;font-size:13px;color:var(--gray-700);cursor:pointer;transition:background 0.1s;}
+.dd-item:hover{background:var(--gray-50);}
+.dd-item i{font-size:15px;color:var(--gray-500);}
+.dd-item.sel{color:var(--blue);}
+.dd-item.sel i{color:var(--blue);}
+
+/* ASSIGN CHIP */
+.assign-chip{display:inline-flex;align-items:center;gap:5px;padding:2px 8px;border-radius:999px;background:var(--gray-100);font-size:12px;color:var(--gray-700);}
+.assign-chip .dot{width:18px;height:18px;border-radius:50%;background:var(--blue-light);color:var(--blue);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:600;}
+
+/* REPORT CARDS */
+.report-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:20px;}
+.report-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:14px 16px;}
+.report-card .rc-num{font-size:26px;font-weight:600;margin-bottom:2px;}
+.report-card .rc-lbl{font-size:11px;color:var(--gray-500);text-transform:uppercase;letter-spacing:0.5px;}
+
+/* TAG */
+.tag{display:inline-flex;align-items:center;padding:2px 8px;background:var(--gray-100);border-radius:4px;font-size:11px;color:var(--gray-700);}
+
+/* TOAST */
+#toast{position:fixed;bottom:24px;right:24px;background:var(--gray-900);color:white;padding:10px 18px;border-radius:var(--radius);font-size:13px;z-index:999;opacity:0;transition:opacity 0.2s;pointer-events:none;display:flex;align-items:center;gap:8px;}
+
+/* ESCALATION DIAGRAM on detail page */
+.esc-diagram{padding:16px;}
+.esc-step{display:flex;gap:12px;align-items:flex-start;margin-bottom:4px;}
+.esc-step-icon{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;flex-shrink:0;}
+.esc-step-body{flex:1;padding-top:4px;}
+.esc-step-title{font-size:13px;font-weight:600;}
+.esc-step-sub{font-size:11px;opacity:0.75;margin-top:1px;}
+.esc-line{width:2px;height:16px;background:var(--gray-200);margin:0 0 4px 15px;}
+
+/* ESCALATE MODAL tier selector */
+.tier-option{border:1px solid var(--border);border-radius:var(--radius);padding:10px 14px;cursor:pointer;transition:border-color 0.15s,background 0.15s;margin-bottom:8px;display:flex;align-items:center;gap:10px;}
+.tier-option:hover{background:var(--gray-50);}
+.tier-option.selected{border-color:var(--blue);background:var(--blue-light);}
+.tier-option-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.tier-option-text .to-title{font-size:13px;font-weight:600;}
+.tier-option-text .to-sub{font-size:11px;color:var(--gray-500);margin-top:2px;}
+
+.empty-state{text-align:center;padding:48px 20px;color:var(--gray-500);}
+.empty-state i{font-size:36px;color:var(--gray-300);margin-bottom:12px;display:block;}
+
+@media(max-width:700px){
+  .detail-grid{grid-template-columns:1fr;}
+  .form-row{grid-template-columns:1fr;}
+  .esc-nodes{flex-wrap:wrap;}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ TOP NAV ═══ -->
+<nav class="topnav">
+  <span class="topnav-brand">Shamiri Hub</span>
+  <div class="topnav-tabs">
+    <button class="topnav-tab" onclick="showPage('schedule')"><i class="ti ti-calendar"></i>Schedule</button>
+    <button class="topnav-tab" onclick="showPage('schools')"><i class="ti ti-school"></i>Schools</button>
+    <button class="topnav-tab" onclick="showPage('fellows')"><i class="ti ti-users"></i>Fellows</button>
+    <button class="topnav-tab" onclick="showPage('students')"><i class="ti ti-user-check"></i>Students</button>
+    <button class="topnav-tab" onclick="showPage('clinical')"><i class="ti ti-heart-rate-monitor"></i>Clinical cases</button>
+    <div class="dropdown-wrap">
+      <button class="topnav-tab" onclick="toggleDD('ddReport')"><i class="ti ti-chart-bar"></i>Reporting<i class="ti ti-chevron-down" style="font-size:11px;margin-left:2px;"></i></button>
+      <div class="dropdown-menu" id="ddReport" style="left:0;right:auto;">
+        <div class="dd-section">REPORTING</div>
+        <div class="dd-item"><i class="ti ti-school"></i>School reports</div>
+        <div class="dd-item"><i class="ti ti-users"></i>Fellow reports</div>
+        <div class="dd-item"><i class="ti ti-user-check"></i>Student reports</div>
+        <div class="dd-item"><i class="ti ti-receipt"></i>Expenses</div>
+        <div style="height:1px;background:var(--border);margin:4px 0;"></div>
+        <div class="dd-item sel" onclick="showPage('tickets');closeAllDD()"><i class="ti ti-ticket"></i>Support tickets</div>
+      </div>
+    </div>
+    <button class="topnav-tab active" id="tabTickets" onclick="showPage('tickets')"><i class="ti ti-ticket"></i>Support tickets</button>
+  </div>
+  <div class="topnav-right">
+    <button class="topnav-btn"><i class="ti ti-speakerphone"></i>Feedback</button>
+    <button class="topnav-btn"><i class="ti ti-help-circle"></i>Help</button>
+    <button class="topnav-btn" style="padding:4px 8px;"><i class="ti ti-bell"></i><span class="notif-badge">14</span></button>
+    <div class="dropdown-wrap">
+      <button class="topnav-btn" onclick="toggleDD('ddProfile')">
+        <div class="avatar">LJ</div>Leroy Jenkins<i class="ti ti-chevron-down" style="font-size:11px;"></i>
+      </button>
+      <div class="dropdown-menu" id="ddProfile">
+        <div class="dd-item" onclick="openM('mProfile');closeAllDD()"><i class="ti ti-user-circle"></i>My profile</div>
+        <div style="height:1px;background:var(--border);margin:4px 0;"></div>
+        <div class="dd-item" style="color:var(--red);"><i class="ti ti-power" style="color:var(--red);"></i>Sign out</div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══ PLACEHOLDER PAGES ═══ -->
+<div class="page" id="page-schedule"><div class="page-header"><h1 class="page-title">Schedule</h1></div><div class="page-body"><div class="empty-state"><i class="ti ti-calendar"></i><p>Navigate to Support tickets to explore the prototype.</p></div></div></div>
+<div class="page" id="page-schools"><div class="page-header"><h1 class="page-title">Schools</h1></div><div class="page-body"><div class="empty-state"><i class="ti ti-school"></i><p>Navigate to Support tickets to explore the prototype.</p></div></div></div>
+<div class="page" id="page-fellows"><div class="page-header"><h1 class="page-title">Fellows</h1></div><div class="page-body"><div class="empty-state"><i class="ti ti-users"></i><p>Fellows page.</p></div></div></div>
+<div class="page" id="page-students"><div class="page-header"><h1 class="page-title">Students</h1></div><div class="page-body"><div class="empty-state"><i class="ti ti-user-check"></i><p>Students page.</p></div></div></div>
+<div class="page" id="page-clinical"><div class="page-header"><h1 class="page-title">Clinical cases</h1></div><div class="page-body"><div class="empty-state"><i class="ti ti-heart-rate-monitor"></i><p>Clinical cases page.</p></div></div></div>
+
+<!-- ═══ TICKETS PAGE ═══ -->
+<div class="page active" id="page-tickets">
+  <div class="page-header">
+    <h1 class="page-title">Support Tickets</h1>
+    <div class="page-stats">
+      <div class="stat-chip"><span class="num">52</span><span class="lbl">Total</span></div>
+      <div class="stat-chip"><span class="num" style="color:var(--blue)">21</span><span class="lbl">Open</span></div>
+      <div class="stat-chip"><span class="num" style="color:var(--amber)">13</span><span class="lbl">In progress</span></div>
+      <div class="stat-chip"><span class="num" style="color:var(--red)">7</span><span class="lbl">Escalated</span></div>
+      <div class="stat-chip"><span class="num" style="color:var(--green)">11</span><span class="lbl">Resolved</span></div>
+    </div>
+    <div style="border-bottom:1px solid var(--border);margin-top:10px;">
+      <div class="tab-strip">
+        <div class="tab-pill active" onclick="switchTab(this,'all')">All tickets</div>
+        <div class="tab-pill" onclick="switchTab(this,'t1')">Tier 1 – Fellow</div>
+        <div class="tab-pill" onclick="switchTab(this,'t2')">Tier 2 – Supervisor</div>
+        <div class="tab-pill" onclick="switchTab(this,'t3-data')">T3 Data Lead</div>
+        <div class="tab-pill" onclick="switchTab(this,'t3-ops')">T3 Operations Lead</div>
+        <div class="tab-pill" onclick="switchTab(this,'t3-hub')">T3 Hub Managers</div>
+        <div class="tab-pill" onclick="switchTab(this,'t3-clin')">T3 Clinical Lead</div>
+        <div class="tab-pill" onclick="switchTab(this,'hq')">HQ Teams</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-body">
+    <div class="toolbar">
+      <div class="search-wrap">
+        <i class="ti ti-search"></i>
+        <input type="text" placeholder="Search tickets…" id="ticketSearch" oninput="filterTickets()">
+      </div>
+      <select class="filter-select" id="fStatus" onchange="filterTickets()">
+        <option value="">All statuses</option>
+        <option>Open</option>
+        <option>In progress</option>
+        <option>Escalated</option>
+        <option>Resolved</option>
+        <option>Closed</option>
+      </select>
+      <select class="filter-select" id="fTier" onchange="filterTickets()">
+        <option value="">All tiers</option>
+        <option value="Tier 1">Tier 1 – Fellow</option>
+        <option value="Tier 2">Tier 2 – Supervisor</option>
+        <option value="Tier 3 – Data Lead">T3 Data Lead</option>
+        <option value="Tier 3 – Operations Lead">T3 Operations Lead</option>
+        <option value="Tier 3 – Hub Manager">T3 Hub Manager</option>
+        <option value="Tier 3 – Clinical Lead">T3 Clinical Lead</option>
+        <option value="HQ Team">HQ Team</option>
+      </select>
+      <select class="filter-select" id="fPriority" onchange="filterTickets()">
+        <option value="">All priorities</option>
+        <option>High</option>
+        <option>Medium</option>
+        <option>Low</option>
+      </select>
+      <button class="btn btn-primary" onclick="openM('mNewTicket')"><i class="ti ti-plus"></i>New ticket</button>
+    </div>
+
+    <div class="table-wrap">
+      <table class="tbl">
+        <thead>
+          <tr>
+            <th><input type="checkbox"></th>
+            <th>ID</th>
+            <th>Subject</th>
+            <th>Category</th>
+            <th>School / Context</th>
+            <th>Current tier</th>
+            <th>Priority</th>
+            <th>Status</th>
+            <th>Assigned</th>
+            <th>Updated</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="ticketsTbody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ TICKET DETAIL PAGE ═══ -->
+<div class="page" id="page-detail">
+  <div class="page-header" id="detailHeader">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+      <button class="btn btn-sm" onclick="showPage('tickets')"><i class="ti ti-arrow-left"></i>Back</button>
+      <span style="font-size:13px;color:var(--gray-500)" id="dBreadcrumb">Tickets / TKT-001</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding-bottom:14px;">
+      <span id="dId" style="font-family:var(--mono);font-size:12px;color:var(--gray-500);"></span>
+      <span id="dTierBadge"></span>
+      <span id="dStatusBadge"></span>
+      <h1 class="page-title" id="dTitle" style="margin:0;font-size:18px;flex:1;min-width:180px;"></h1>
+    </div>
+  </div>
+  <div class="page-body">
+    <div class="detail-grid">
+      <!-- MAIN -->
+      <div>
+        <!-- Escalation flow -->
+        <div class="detail-section">
+          <div class="detail-section-head"><i class="ti ti-arrow-up-circle" style="font-size:13px;margin-right:4px;vertical-align:-1px;"></i>Escalation path</div>
+          <div id="dEscFlow" style="padding:16px;"></div>
+        </div>
+        <!-- Description -->
+        <div class="detail-section">
+          <div class="detail-section-head">Description</div>
+          <div class="detail-section-body" id="dDesc" style="font-size:13px;line-height:1.7;color:var(--gray-700);"></div>
+        </div>
+        <!-- Activity -->
+        <div class="detail-section">
+          <div class="detail-section-head">Activity &amp; comments</div>
+          <div class="detail-section-body" id="dComments"></div>
+          <div style="padding:0 14px 14px;">
+            <textarea id="commentInput" placeholder="Add a comment or internal note…" style="width:100%;padding:8px 12px;border:1px solid var(--border);border-radius:var(--radius);font-family:var(--font);font-size:13px;resize:vertical;min-height:68px;outline:none;"></textarea>
+            <div style="display:flex;gap:8px;margin-top:6px;">
+              <button class="btn btn-primary btn-sm" onclick="addComment()">Post comment</button>
+              <button class="btn btn-sm">Internal note</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- SIDEBAR -->
+      <div>
+        <div class="detail-section">
+          <div class="detail-section-head">Actions</div>
+          <div class="detail-section-body" style="display:flex;flex-direction:column;gap:6px;">
+            <button class="btn" style="width:100%;justify-content:flex-start;font-size:12px;" onclick="openM('mEscalate')"><i class="ti ti-arrow-up-circle"></i>Escalate ticket</button>
+            <button class="btn" style="width:100%;justify-content:flex-start;font-size:12px;" onclick="openM('mResolve')"><i class="ti ti-circle-check"></i>Mark resolved</button>
+            <button class="btn" style="width:100%;justify-content:flex-start;font-size:12px;" onclick="openM('mAssign')"><i class="ti ti-user-plus"></i>Reassign</button>
+            <button class="btn" style="width:100%;justify-content:flex-start;font-size:12px;" onclick="openM('mReport')"><i class="ti ti-file-report"></i>School report</button>
+            <button class="btn" style="width:100%;justify-content:flex-start;font-size:12px;" onclick="openM('mFeedback')"><i class="ti ti-message-circle"></i>School feedback</button>
+          </div>
+        </div>
+        <div class="detail-section">
+          <div class="detail-section-head">Details</div>
+          <div class="detail-section-body" id="dMeta"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ MODALS ══════════════════ -->
+
+<!-- NEW TICKET -->
+<div class="overlay" id="mNewTicket">
+  <div class="modal">
+    <div class="modal-header"><span class="modal-title">New support ticket</span><button class="modal-close" onclick="closeM('mNewTicket')"><i class="ti ti-x"></i></button></div>
+    <div class="modal-info-bar"><i class="ti ti-info-circle"></i>Olympic Secondary School</div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-field"><label>Subject <span class="req">*</span></label><input type="text" id="nSubject" placeholder="Brief description of issue"></div>
+        <div class="form-field"><label>Category <span class="req">*</span></label>
+          <select id="nCategory">
+            <option value="">Select category</option>
+            <option>Session scheduling</option>
+            <option>Student attendance</option>
+            <option>School compliance</option>
+            <option>Payment / stipend</option>
+            <option>Fellow welfare</option>
+            <option>Clinical referral</option>
+            <option>Data / research issue</option>
+            <option>Tech / system issue</option>
+            <option>Operations issue</option>
+            <option>Admin / data issue</option>
+            <option>Other</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-field"><label>Initial escalation tier <span class="req">*</span></label>
+        <select id="nTier">
+          <option value="">Select tier</option>
+          <option value="Tier 1">Tier 1 – Fellow (first response)</option>
+          <option value="Tier 2">Tier 2 – Supervisor</option>
+          <option value="Tier 3 – Data Lead">Tier 3 – Data Lead (tech &amp; research issues)</option>
+          <option value="Tier 3 – Operations Lead">Tier 3 – Operations Lead (operations issues)</option>
+          <option value="Tier 3 – Hub Manager">Tier 3 – Hub Manager (care operations)</option>
+          <option value="Tier 3 – Clinical Lead">Tier 3 – Clinical Lead (clinical ops)</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <div class="form-field"><label>Priority <span class="req">*</span></label>
+          <select id="nPriority"><option value="">Select</option><option>Low</option><option>Medium</option><option>High</option></select>
+        </div>
+        <div class="form-field"><label>School</label>
+          <select id="nSchool"><option>Olympic Secondary School</option><option>Strathmore School</option><option>Kianda School</option><option>Light Academy</option></select>
+        </div>
+      </div>
+      <div class="form-field"><label>Assign to</label>
+        <select id="nAssign"><option>Leroy Jenkins (me)</option><option>Patricia Kiilu</option><option>Eucabeth Maina Wanjiru</option><option>Patrick Ochanda</option><option>Unassigned</option></select>
+      </div>
+      <div class="form-field"><label>Description</label><textarea id="nDesc" placeholder="Describe the issue in detail…" style="min-height:90px;"></textarea></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeM('mNewTicket')">Cancel</button>
+      <button class="btn btn-primary" onclick="createTicket()"><i class="ti ti-plus"></i>Create ticket</button>
+    </div>
+  </div>
+</div>
+
+<!-- ESCALATE MODAL -->
+<div class="overlay" id="mEscalate">
+  <div class="modal modal-wide">
+    <div class="modal-header"><span class="modal-title">Escalate ticket</span><button class="modal-close" onclick="closeM('mEscalate')"><i class="ti ti-x"></i></button></div>
+    <div class="modal-info-bar"><i class="ti ti-info-circle"></i><span id="escSchool">Olympic Secondary School</span></div>
+    <div class="modal-body">
+      <div class="alert-box alert-info" style="margin-bottom:16px;"><i class="ti ti-info-circle"></i>Select the appropriate tier below. Escalation will notify the relevant team and transfer ownership of this ticket.</div>
+
+      <p style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;color:var(--gray-500);margin-bottom:10px;">Select escalation target</p>
+
+      <div id="escOptions">
+        <div class="tier-option" onclick="selectEscTier(this,'Tier 2','Tier 2 – Supervisor','Direct supervisor oversight and follow-up')">
+          <div class="tier-option-icon" style="background:var(--amber-light);color:var(--amber-dark);"><i class="ti ti-user-star"></i></div>
+          <div class="tier-option-text"><div class="to-title">Tier 2 – Supervisor</div><div class="to-sub">Direct supervisor oversight and follow-up</div></div>
+        </div>
+        <div class="tier-option" onclick="selectEscTier(this,'Tier 3 – Data Lead','Tier 3 – Data Lead','Tech &amp; research issues → Tech or Research team at HQ')">
+          <div class="tier-option-icon" style="background:var(--teal-light);color:var(--teal-dark);"><i class="ti ti-database"></i></div>
+          <div class="tier-option-text"><div class="to-title">Tier 3 – Data Lead</div><div class="to-sub">Tech &amp; research issues → Tech or Research team at HQ</div></div>
+        </div>
+        <div class="tier-option" onclick="selectEscTier(this,'Tier 3 – Operations Lead','Tier 3 – Operations Lead','Operations issues → Finance / Operations team at HQ')">
+          <div class="tier-option-icon" style="background:var(--orange-light);color:var(--orange-dark);"><i class="ti ti-settings"></i></div>
+          <div class="tier-option-text"><div class="to-title">Tier 3 – Operations Lead</div><div class="to-sub">Operations issues → Finance / Operations team at HQ</div></div>
+        </div>
+        <div class="tier-option" onclick="selectEscTier(this,'Tier 3 – Hub Manager','Tier 3 – Hub Manager','Care operations issues → Care team at HQ')">
+          <div class="tier-option-icon" style="background:var(--purple-light);color:var(--purple-dark);"><i class="ti ti-home-heart"></i></div>
+          <div class="tier-option-text"><div class="to-title">Tier 3 – Hub Manager</div><div class="to-sub">Care operations issues → Care team at HQ</div></div>
+        </div>
+        <div class="tier-option" onclick="selectEscTier(this,'Tier 3 – Clinical Lead','Tier 3 – Clinical Lead','Clinical ops issues → Care Clinical Ops team at HQ')">
+          <div class="tier-option-icon" style="background:var(--green-light);color:var(--green-dark);"><i class="ti ti-stethoscope"></i></div>
+          <div class="tier-option-text"><div class="to-title">Tier 3 – Clinical Lead</div><div class="to-sub">Clinical ops issues → Care Clinical Ops team at HQ</div></div>
+        </div>
+        <div class="tier-option" onclick="selectEscTier(this,'HQ Team','HQ Team – Tech','Final escalation → Tech team at HQ')">
+          <div class="tier-option-icon" style="background:var(--red-light);color:var(--red-dark);"><i class="ti ti-building-skyscraper"></i></div>
+          <div class="tier-option-text"><div class="to-title">HQ Team – Tech (final)</div><div class="to-sub">Final escalation → HQ Tech team</div></div>
+        </div>
+      </div>
+
+      <div class="form-field" style="margin-top:14px;"><label>Reason for escalation <span class="req">*</span></label>
+        <select id="escReason">
+          <option value="">Select reason</option>
+          <option>Unresolved after 48 hours</option>
+          <option>Issue beyond current tier authority</option>
+          <option>Student safety concern</option>
+          <option>Financial / payment dispute</option>
+          <option>School compliance failure</option>
+          <option>Repeated complaint</option>
+          <option>Technical system failure</option>
+          <option>Clinical emergency</option>
+        </select>
+      </div>
+      <div class="form-field"><label>Additional notes</label><textarea placeholder="Context for the receiving team…" style="min-height:60px;"></textarea></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeM('mEscalate')">Cancel</button>
+      <button class="btn btn-primary" onclick="doEscalate()"><i class="ti ti-arrow-up-circle"></i>Escalate ticket</button>
+    </div>
+  </div>
+</div>
+
+<!-- RESOLVE -->
+<div class="overlay" id="mResolve">
+  <div class="modal">
+    <div class="modal-header"><span class="modal-title">Mark ticket resolved</span><button class="modal-close" onclick="closeM('mResolve')"><i class="ti ti-x"></i></button></div>
+    <div class="modal-info-bar"><i class="ti ti-info-circle"></i>Olympic Secondary School</div>
+    <div class="modal-body">
+      <div class="form-field"><label>Resolution summary <span class="req">*</span></label><textarea placeholder="Describe how the issue was resolved…" style="min-height:90px;"></textarea></div>
+      <div class="form-field"><label>Satisfaction (1 unacceptable to 5 outstanding)</label>
+        <div class="star-group" id="resolveStars">
+          <span class="star" onclick="rateStar('resolveStars',1)">★</span><span class="star" onclick="rateStar('resolveStars',2)">★</span><span class="star" onclick="rateStar('resolveStars',3)">★</span><span class="star" onclick="rateStar('resolveStars',4)">★</span><span class="star" onclick="rateStar('resolveStars',5)">★</span>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeM('mResolve')">Cancel</button>
+      <button class="btn btn-primary" onclick="closeM('mResolve');showToast('Ticket marked as resolved.')"><i class="ti ti-circle-check"></i>Mark resolved</button>
+    </div>
+  </div>
+</div>
+
+<!-- ASSIGN -->
+<div class="overlay" id="mAssign">
+  <div class="modal">
+    <div class="modal-header"><span class="modal-title">Reassign ticket</span><button class="modal-close" onclick="closeM('mAssign')"><i class="ti ti-x"></i></button></div>
+    <div class="modal-info-bar"><i class="ti ti-info-circle"></i>Olympic Secondary School</div>
+    <div class="modal-body">
+      <div class="form-field"><label>Assign to <span class="req">*</span></label>
+        <select><option>Leroy Jenkins</option><option>Patricia Kiilu</option><option>Eucabeth Maina Wanjiru</option><option>Patrick Ochanda</option></select>
+      </div>
+      <div class="form-field"><label>Note to assignee</label><textarea placeholder="Optional note…" style="min-height:60px;"></textarea></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeM('mAssign')">Cancel</button>
+      <button class="btn btn-primary" onclick="closeM('mAssign');showToast('Ticket reassigned.')"><i class="ti ti-user-plus"></i>Reassign</button>
+    </div>
+  </div>
+</div>
+
+<!-- SCHOOL REPORT -->
+<div class="overlay" id="mReport">
+  <div class="modal">
+    <div class="modal-header"><span class="modal-title">Submit school report</span><button class="modal-close" onclick="closeM('mReport')"><i class="ti ti-x"></i></button></div>
+    <div class="modal-info-bar"><i class="ti ti-info-circle"></i>Olympic Secondary School</div>
+    <div class="modal-body">
+      <div class="form-field"><label>Select session <span class="req">*</span></label>
+        <select><option>S3 – 23 Jun 2023 · 2:00 PM – 3:00 PM</option><option>S4 – 30 Jun 2023 · 2:00 PM – 3:00 PM</option></select>
+      </div>
+      <div class="form-field" style="margin-bottom:8px;"><label>Student behaviour (1–5)</label>
+        <div class="star-group" id="rs1"><span class="star lit" onclick="rateStar('rs1',1)">★</span><span class="star lit" onclick="rateStar('rs1',2)">★</span><span class="star lit" onclick="rateStar('rs1',3)">★</span><span class="star" onclick="rateStar('rs1',4)">★</span><span class="star" onclick="rateStar('rs1',5)">★</span></div>
+      </div>
+      <div class="form-field" style="margin-bottom:8px;"><label>Admin support (1–5)</label>
+        <div class="star-group" id="rs2"><span class="star lit" onclick="rateStar('rs2',1)">★</span><span class="star lit" onclick="rateStar('rs2',2)">★</span><span class="star lit" onclick="rateStar('rs2',3)">★</span><span class="star lit" onclick="rateStar('rs2',4)">★</span><span class="star" onclick="rateStar('rs2',5)">★</span></div>
+      </div>
+      <div class="form-field"><label>Workload (1–5)</label>
+        <div class="star-group" id="rs3"><span class="star lit" onclick="rateStar('rs3',1)">★</span><span class="star lit" onclick="rateStar('rs3',2)">★</span><span class="star" onclick="rateStar('rs3',3)">★</span><span class="star" onclick="rateStar('rs3',4)">★</span><span class="star" onclick="rateStar('rs3',5)">★</span></div>
+      </div>
+      <div class="form-field"><label>Positive highlights</label><textarea placeholder="Positive highlights" style="min-height:60px;"></textarea></div>
+      <div class="form-field"><label>Challenges</label><textarea placeholder="Challenges" style="min-height:60px;"></textarea></div>
+      <div class="form-field"><label>Recommendations</label><textarea placeholder="Recommendations" style="min-height:60px;"></textarea></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeM('mReport')">Cancel</button>
+      <button class="btn btn-primary" onclick="closeM('mReport');showToast('School report submitted.')">Submit</button>
+    </div>
+  </div>
+</div>
+
+<!-- SCHOOL FEEDBACK -->
+<div class="overlay" id="mFeedback">
+  <div class="modal">
+    <div class="modal-header"><span class="modal-title">Submit school feedback</span><button class="modal-close" onclick="closeM('mFeedback')"><i class="ti ti-x"></i></button></div>
+    <div class="modal-info-bar"><i class="ti ti-info-circle"></i>Olympic Secondary School</div>
+    <div class="modal-body">
+      <div class="form-field"><label>Satisfaction of students and teachers (1–5)</label>
+        <div class="star-group" id="rf1"><span class="star lit" onclick="rateStar('rf1',1)">★</span><span class="star lit" onclick="rateStar('rf1',2)">★</span><span class="star lit" onclick="rateStar('rf1',3)">★</span><span class="star" onclick="rateStar('rf1',4)">★</span><span class="star" onclick="rateStar('rf1',5)">★</span></div>
+      </div>
+      <div class="form-field"><label>What factors may have influenced students' participation levels?</label><textarea placeholder="Type here" style="min-height:80px;"></textarea></div>
+      <div class="form-field"><label>Any concerns / areas of improvement raised by teachers?</label><textarea placeholder="Type here" style="min-height:80px;"></textarea></div>
+      <div class="form-field"><label>How has the program impacted students? Changes in attitudes, behavior, etc.</label><textarea placeholder="Type here" style="min-height:80px;"></textarea></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeM('mFeedback')">Cancel</button>
+      <button class="btn btn-primary" onclick="closeM('mFeedback');showToast('Feedback submitted.')">Submit</button>
+    </div>
+  </div>
+</div>
+
+<!-- PROFILE -->
+<div class="overlay" id="mProfile">
+  <div class="modal">
+    <div class="modal-header"><span class="modal-title">My profile</span><button class="modal-close" onclick="closeM('mProfile')"><i class="ti ti-x"></i></button></div>
+    <div class="modal-body">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+        <div class="avatar" style="width:40px;height:40px;font-size:14px;">LJ</div>
+        <span style="font-size:15px;font-weight:500;">Leroy Jenkins</span>
+      </div>
+      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--gray-500);margin-bottom:8px;">PERSONAL INFORMATION</div>
+      <div class="form-row">
+        <div class="form-field"><label>Email address <span class="req">*</span></label><input type="email" value="leroy@olympic.ac.ke"></div>
+        <div class="form-field"><label>Phone number <span class="req">*</span></label><input type="text" value="+254 717 817 232"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-field"><label>National ID <span class="req">*</span></label><input type="text" value="30193846"></div>
+        <div class="form-field"><label>Gender <span class="req">*</span></label><select><option>Male</option><option>Female</option></select></div>
+      </div>
+      <div class="form-row">
+        <div class="form-field"><label>County <span class="req">*</span></label><select><option>Nairobi</option></select></div>
+        <div class="form-field"><label>Sub-county <span class="req">*</span></label><select><option>Westlands</option></select></div>
+      </div>
+      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--gray-500);margin:12px 0 8px;">MPESA INFORMATION</div>
+      <div class="form-row">
+        <div class="form-field"><label>Full name <span class="req">*</span></label><input type="text" value="Leroy Jenkins"></div>
+        <div class="form-field"><label>M-Pesa number <span class="req">*</span></label><input type="text" value="+254 717 817 232"></div>
+      </div>
+      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--gray-500);margin:12px 0 8px;">BANK DETAILS</div>
+      <div class="form-row">
+        <div class="form-field"><label>Bank name <span class="req">*</span></label><select><option>Absa Bank PLC</option></select></div>
+        <div class="form-field"><label>Bank branch <span class="req">*</span></label><select><option>ABC Place</option></select></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeM('mProfile')">Cancel</button>
+      <button class="btn btn-primary" onclick="closeM('mProfile');showToast('Profile updated.')">Update &amp; Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- CLOSE CONFIRM -->
+<div class="overlay" id="mClose">
+  <div class="modal">
+    <div class="modal-header"><span class="modal-title">Confirm close ticket</span><button class="modal-close" onclick="closeM('mClose')"><i class="ti ti-x"></i></button></div>
+    <div class="modal-info-bar"><i class="ti ti-info-circle"></i>Olympic Secondary School</div>
+    <div class="modal-body">
+      <p style="font-size:14px;margin-bottom:12px;">Are you sure?</p>
+      <div class="alert-box alert-danger"><i class="ti ti-alert-circle"></i>Once this change has been made it is irreversible and will need you to contact support in order to modify. Please be sure of your action before you confirm.</div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeM('mClose')">Cancel</button>
+      <button class="btn btn-danger" onclick="closeM('mClose');showToast('Ticket closed.')">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<!-- CONTEXT MENU -->
+<div class="ctx-menu" id="ctxMenu">
+  <div class="ctx-group-label">ACTIONS</div>
+  <div class="ctx-item" onclick="ctxView()"><i class="ti ti-eye"></i>View ticket</div>
+  <div class="ctx-item" onclick="openM('mNewTicket');closeCtx()"><i class="ti ti-edit"></i>Edit ticket</div>
+  <div class="ctx-item" onclick="openM('mEscalate');closeCtx()"><i class="ti ti-arrow-up-circle"></i>Escalate ticket</div>
+  <div class="ctx-item" onclick="openM('mReport');closeCtx()"><i class="ti ti-file-report"></i>Submit school report</div>
+  <div class="ctx-item" onclick="openM('mFeedback');closeCtx()"><i class="ti ti-message-circle"></i>Submit school feedback</div>
+  <div class="ctx-divider"></div>
+  <div class="ctx-item danger" onclick="openM('mClose');closeCtx()"><i class="ti ti-trash"></i>Close ticket</div>
+</div>
+
+<!-- TOAST -->
+<div id="toast"><i class="ti ti-circle-check" style="font-size:15px;color:#4ade80;"></i><span id="toastMsg"></span></div>
+
+<script>
+/* ═══ TIER DEFINITIONS ═══ */
+const TIERS = {
+  'Tier 1':                  { label:'Tier 1',               sub:'Fellow (first response)',                    cls:'tb-t1',       escCls:'esc-t1',       lblCls:'esc-t1-lbl',       icon:'ti-user',               tab:'t1' },
+  'Tier 2':                  { label:'Tier 2',               sub:'Supervisor',                                 cls:'tb-t2',       escCls:'esc-t2',       lblCls:'esc-t2-lbl',       icon:'ti-user-star',          tab:'t2' },
+  'Tier 3 – Data Lead':      { label:'T3 – Data Lead',       sub:'Tech & research → HQ Tech/Research',         cls:'tb-t3-data',  escCls:'esc-t3-data',  lblCls:'esc-t3-data-lbl',  icon:'ti-database',           tab:'t3-data' },
+  'Tier 3 – Operations Lead':{ label:'T3 – Ops Lead',        sub:'Operations → HQ Finance/Operations',         cls:'tb-t3-ops',   escCls:'esc-t3-ops',   lblCls:'esc-t3-ops-lbl',   icon:'ti-settings',           tab:'t3-ops' },
+  'Tier 3 – Hub Manager':    { label:'T3 – Hub Manager',     sub:'Care operations → HQ Care team',             cls:'tb-t3-hub',   escCls:'esc-t3-hub',   lblCls:'esc-t3-hub-lbl',   icon:'ti-home-heart',         tab:'t3-hub' },
+  'Tier 3 – Clinical Lead':  { label:'T3 – Clinical Lead',   sub:'Clinical ops → HQ Care Clinical Ops',       cls:'tb-t3-clin',  escCls:'esc-t3-clin',  lblCls:'esc-t3-clin-lbl',  icon:'ti-stethoscope',        tab:'t3-clin' },
+  'HQ Team':                 { label:'HQ Team',              sub:'Final escalation – Tech team at HQ',         cls:'tb-hq',       escCls:'esc-hq',       lblCls:'esc-hq-lbl',       icon:'ti-building-skyscraper',tab:'hq' },
+};
+
+const TIER_ORDER = ['Tier 1','Tier 2','Tier 3 – Data Lead','Tier 3 – Operations Lead','Tier 3 – Hub Manager','Tier 3 – Clinical Lead','HQ Team'];
+
+/* ═══ TICKET DATA ═══ */
+let TICKETS = [
+  { id:'TKT-052', subject:'Session report not submitted on time', submitter:'Leroy Jenkins', school:'Olympic Secondary S.', tier:'Tier 1', priority:'Medium', status:'Open', assigned:'Leroy Jenkins', updated:'Just now', category:'Session scheduling', desc:'The fellow has not submitted the session report for the session held on 28 May 2023. This is the second consecutive missed submission this term.', comments:[{user:'Patricia Kiilu',initials:'PK',time:'5 min ago',text:'Please submit the report as soon as possible to avoid further delays in the system.'}] },
+  { id:'TKT-051', subject:'Student attendance below 60% threshold', submitter:'Eucabeth Maina Wanjiru', school:'Kianda School', tier:'Tier 2', priority:'High', status:'Escalated', assigned:'Patricia Kiilu', updated:'2h ago', category:'Student attendance', desc:'Student attendance for the past 3 sessions at Kianda School has dropped below the 60% minimum threshold. The school point person has not responded to multiple outreach attempts.', comments:[{user:'Leroy Jenkins',initials:'LJ',time:'2h ago',text:'Attempted to reach point person Bethany Kiilu – no response on phone or email.'},{user:'Patricia Kiilu',initials:'PK',time:'1h ago',text:'Escalated to Tier 2. Will visit school on Monday for a follow-up.'}] },
+  { id:'TKT-050', subject:'M-Pesa stipend payment not received – June', submitter:'Patrick Ochanda', school:'Light Academy', tier:'Tier 3 – Operations Lead', priority:'High', status:'Escalated', assigned:'Eucabeth Maina Wanjiru', updated:'1d ago', category:'Payment / stipend', desc:'Multiple fellows from the Westlands cluster have not received their June stipend payment. M-Pesa confirmations not sent as of 1 June 2023. Affecting 6 fellows.', comments:[] },
+  { id:'TKT-049', subject:'Hub data sync failure – session records missing', submitter:'Leroy Jenkins', school:'Olympic Secondary S.', tier:'Tier 3 – Data Lead', priority:'High', status:'Escalated', assigned:'Patricia Kiilu', updated:'1d ago', category:'Tech / system issue', desc:'Session records for S2 and S3 are not appearing in the Hub dashboard despite being submitted. Likely a sync failure between the mobile app and the backend.', comments:[{user:'Patricia Kiilu',initials:'PK',time:'1d ago',text:'Confirmed issue on our end. Escalating to Data Lead for investigation.'}] },
+  { id:'TKT-048', subject:'Clinical referral – student self-harm disclosure', submitter:'Leroy Jenkins', school:'Olympic Secondary S.', tier:'Tier 3 – Clinical Lead', priority:'High', status:'Resolved', assigned:'Eucabeth Maina Wanjiru', updated:'2d ago', category:'Clinical referral', desc:'During a group session a student disclosed self-harm behaviour. Clinical referral protocol was activated and the student has been seen by the clinical team. Case closed pending follow-up.', comments:[{user:'Eucabeth Maina Wanjiru',initials:'EW',time:'2d ago',text:'Clinical team followed up. Student is safe and receiving ongoing support.'}] },
+  { id:'TKT-047', subject:'School dropped out without formal notice', submitter:'Patricia Kiilu', school:'Strathmore School', tier:'Tier 3 – Hub Manager', priority:'High', status:'In progress', assigned:'Patricia Kiilu', updated:'2d ago', category:'School compliance', desc:'Strathmore School has indicated they will not continue with the program but did not follow the formal drop-out process. Hub manager meeting scheduled.', comments:[{user:'Patricia Kiilu',initials:'PK',time:'2d ago',text:'Contacted school principal. Meeting with Hub Manager scheduled for 5 June.'}] },
+  { id:'TKT-046', subject:'Research data export producing incorrect figures', submitter:'Eucabeth Maina Wanjiru', school:'Kianda School', tier:'Tier 3 – Data Lead', priority:'Medium', status:'In progress', assigned:'Eucabeth Maina Wanjiru', updated:'3d ago', category:'Data / research issue', desc:'The research export tool is producing inconsistent totals for the Q1 outcome data. Suspected formula error in the aggregation layer. Flagged for HQ Research team.', comments:[] },
+  { id:'TKT-045', subject:'Fellow welfare concern – burnout signs', submitter:'Leroy Jenkins', school:'Olympic Secondary S.', tier:'Tier 2', priority:'Medium', status:'In progress', assigned:'Eucabeth Maina Wanjiru', updated:'3d ago', category:'Fellow welfare', desc:'Fellow reports feeling overwhelmed with session workload combined with university exams. Has requested a 2-week temporary break from sessions.', comments:[] },
+  { id:'TKT-044', subject:'Finance system inaccessible – login error', submitter:'Patrick Ochanda', school:'Light Academy', tier:'Tier 3 – Operations Lead', priority:'Medium', status:'Open', assigned:'Patrick Ochanda', updated:'4d ago', category:'Operations issue', desc:'The finance submission portal returns a 403 error when fellows attempt to log in for expense claims. Affecting multiple users across the Westlands cluster.', comments:[] },
+  { id:'TKT-043', subject:'HQ server outage – API endpoints down', submitter:'Patricia Kiilu', school:'All schools', tier:'HQ Team', priority:'High', status:'Escalated', assigned:'Eucabeth Maina Wanjiru', updated:'5d ago', category:'Tech / system issue', desc:'All Hub mobile and web clients are reporting API timeout errors. The issue appears to originate at the HQ server level. Tech team have been notified and are investigating.', comments:[{user:'Eucabeth Maina Wanjiru',initials:'EW',time:'5d ago',text:'HQ Tech team engaged. ETA for resolution: 4 hours.'}] },
+  { id:'TKT-042', subject:'School email updated – not reflected in Hub', submitter:'Patrick Ochanda', school:'Light Academy', tier:'Tier 1', priority:'Low', status:'Closed', assigned:'Patrick Ochanda', updated:'6d ago', category:'Admin / data issue', desc:'The school contact email on file is outdated. Updated externally but the Hub record was not refreshed. Resolved via admin panel.', comments:[] },
+];
+
+let activeTab = 'all';
+let ctxId = null;
+let selectedEscTier = null;
+let currentId = null;
+
+/* ═══ TIER BADGE HTML ═══ */
+function tierBadgeHtml(tierKey) {
+  const t = TIERS[tierKey];
+  if (!t) return tierKey;
+  return `<span class="tier-badge ${t.cls}"><i class="ti ${t.icon}" style="font-size:10px;"></i>${t.label}</span>`;
+}
+
+function statusIcon(s) {
+  return {Open:'ti-circle','In progress':'ti-clock',Escalated:'ti-arrow-up-circle',Resolved:'ti-circle-check',Closed:'ti-x'}[s] || 'ti-circle';
+}
+function statusBadge(s) {
+  const cls = {Open:'open','In progress':'inprogress',Escalated:'escalated',Resolved:'resolved',Closed:'closed'}[s] || 'open';
+  return `<span class="badge badge-${cls}"><i class="ti ${statusIcon(s)}" style="font-size:10px;"></i>${s}</span>`;
+}
+
+/* ═══ ESCALATION FLOW DIAGRAM ═══ */
+function escFlowHtml(activeTier) {
+  const steps = [
+    { key:'Tier 1', icon:'ti-user', label:'Tier 1 – Fellow', sub:'First response' },
+    { key:'Tier 2', icon:'ti-user-star', label:'Tier 2 – Supervisor', sub:'Supervisor oversight' },
+    { key:'t3', icon:'ti-sitemap', label:'Tier 3 – Specialist Lead', sub:'Data / Ops / Hub / Clinical', isGroup:true },
+    { key:'HQ Team', icon:'ti-building-skyscraper', label:'HQ Teams', sub:'Final escalation (Tech team)' },
+  ];
+
+  const t3subs = [
+    { key:'Tier 3 – Data Lead',       icon:'ti-database',           label:'Data Lead',       sub:'→ HQ Tech / Research',      cls:'esc-t3-data' },
+    { key:'Tier 3 – Operations Lead', icon:'ti-settings',           label:'Ops Lead',        sub:'→ HQ Finance / Ops',        cls:'esc-t3-ops'  },
+    { key:'Tier 3 – Hub Manager',     icon:'ti-home-heart',         label:'Hub Manager',     sub:'→ HQ Care',                 cls:'esc-t3-hub'  },
+    { key:'Tier 3 – Clinical Lead',   icon:'ti-stethoscope',        label:'Clinical Lead',   sub:'→ HQ Clinical Ops',         cls:'esc-t3-clin' },
+  ];
+
+  const isT3 = activeTier && activeTier.startsWith('Tier 3');
+  let html = '<div style="display:flex;flex-direction:column;gap:0;">';
+
+  // T1
+  const t1Active = activeTier === 'Tier 1';
+  html += `<div style="display:flex;align-items:center;gap:10px;padding:8px 0;">
+    <div style="width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;${t1Active?'background:var(--blue-light);color:var(--blue-dark);border:2px solid var(--blue);':'background:var(--gray-100);color:var(--gray-500);'}"><i class="ti ti-user"></i></div>
+    <div><div style="font-size:13px;font-weight:${t1Active?'600':'400'};color:${t1Active?'var(--blue-dark)':'var(--gray-700)'};">Tier 1 – Fellow</div><div style="font-size:11px;color:var(--gray-500);">First response, session-level issues</div></div>
+    ${t1Active?'<span class="badge badge-open" style="margin-left:auto;">Current</span>':''}
+  </div>`;
+  html += `<div style="width:2px;height:14px;background:var(--gray-200);margin-left:17px;"></div>`;
+
+  // T2
+  const t2Active = activeTier === 'Tier 2';
+  html += `<div style="display:flex;align-items:center;gap:10px;padding:8px 0;">
+    <div style="width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;${t2Active?'background:var(--amber-light);color:var(--amber-dark);border:2px solid var(--amber);':'background:var(--gray-100);color:var(--gray-500);'}"><i class="ti ti-user-star"></i></div>
+    <div><div style="font-size:13px;font-weight:${t2Active?'600':'400'};color:${t2Active?'var(--amber-dark)':'var(--gray-700)'};">Tier 2 – Supervisor</div><div style="font-size:11px;color:var(--gray-500);">Supervisor oversight &amp; escalation decision</div></div>
+    ${t2Active?'<span class="badge badge-inprogress" style="margin-left:auto;">Current</span>':''}
+  </div>`;
+  html += `<div style="width:2px;height:14px;background:var(--gray-200);margin-left:17px;"></div>`;
+
+  // T3 group
+  html += `<div style="padding:8px 0;">
+    <div style="display:flex;align-items:flex-start;gap:10px;">
+      <div style="width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;${isT3?'background:var(--teal-light);color:var(--teal-dark);border:2px solid var(--teal);':'background:var(--gray-100);color:var(--gray-500);'}"><i class="ti ti-sitemap"></i></div>
+      <div style="flex:1;">
+        <div style="font-size:13px;font-weight:${isT3?'600':'400'};color:${isT3?'var(--teal-dark)':'var(--gray-700)'};">Tier 3 – Specialist Lead</div>
+        <div style="font-size:11px;color:var(--gray-500);margin-bottom:8px;">Route to the appropriate lead based on issue type</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+          ${t3subs.map(s=>{
+            const isAct = activeTier === s.key;
+            return `<div style="padding:7px 10px;border-radius:var(--radius);border:1.5px solid ${isAct?'currentColor':'var(--border)'};${isAct?`background:var(--${s.cls.replace('esc-t3-','').replace('esc-','')}-light,var(--teal-light));`:'background:var(--gray-50);'}" class="${s.cls}">
+              <div style="display:flex;align-items:center;gap:5px;"><i class="ti ${s.icon}" style="font-size:13px;"></i><span style="font-size:12px;font-weight:600;">${s.label}</span>${isAct?'<span class="badge badge-escalated" style="margin-left:auto;font-size:9px;padding:1px 5px;">Current</span>':''}</div>
+              <div style="font-size:10px;margin-top:2px;opacity:0.75;">${s.sub}</div>
+            </div>`;
+          }).join('')}
+        </div>
+      </div>
+    </div>
+  </div>`;
+  html += `<div style="width:2px;height:14px;background:var(--gray-200);margin-left:17px;"></div>`;
+
+  // HQ
+  const hqActive = activeTier === 'HQ Team';
+  html += `<div style="display:flex;align-items:center;gap:10px;padding:8px 0;">
+    <div style="width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;${hqActive?'background:var(--red-light);color:var(--red-dark);border:2px solid var(--red);':'background:var(--gray-100);color:var(--gray-500);'}"><i class="ti ti-building-skyscraper"></i></div>
+    <div><div style="font-size:13px;font-weight:${hqActive?'600':'400'};color:${hqActive?'var(--red-dark)':'var(--gray-700)'};">HQ Team – Tech (final escalation)</div><div style="font-size:11px;color:var(--gray-500);">Final escalation for all Tier 3 leads</div></div>
+    ${hqActive?'<span class="badge badge-escalated" style="margin-left:auto;">Current</span>':''}
+  </div>`;
+
+  html += '</div>';
+  return html;
+}
+
+/* ═══ RENDER TABLE ═══ */
+function renderTable(data) {
+  const tbody = document.getElementById('ticketsTbody');
+  if (!data.length) {
+    tbody.innerHTML = `<tr><td colspan="11"><div class="empty-state"><i class="ti ti-ticket"></i><p>No tickets match your filters.</p></div></td></tr>`;
+    return;
+  }
+  tbody.innerHTML = data.map(t => {
+    const td = TIERS[t.tier] || {};
+    return `<tr onclick="viewTicket('${t.id}')">
+      <td onclick="event.stopPropagation()"><input type="checkbox"></td>
+      <td style="font-family:var(--mono);font-size:11px;color:var(--gray-500);white-space:nowrap;">${t.id}</td>
+      <td style="max-width:200px;">
+        <div style="font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${t.subject}</div>
+      </td>
+      <td><span class="tag">${t.category}</span></td>
+      <td style="font-size:12px;white-space:nowrap;">${t.school}</td>
+      <td>${tierBadgeHtml(t.tier)}</td>
+      <td style="white-space:nowrap;"><span class="priority-dot p-${t.priority.toLowerCase()}"></span>${t.priority}</td>
+      <td>${statusBadge(t.status)}</td>
+      <td><span class="assign-chip"><span class="dot">${t.assigned.split(' ').map(n=>n[0]).join('').slice(0,2)}</span>${t.assigned.split(' ')[0]}</span></td>
+      <td style="font-size:12px;color:var(--gray-500);white-space:nowrap;">${t.updated}</td>
+      <td onclick="event.stopPropagation()"><button class="action-dots" onclick="showCtx(event,'${t.id}')"><i class="ti ti-dots"></i></button></td>
+    </tr>`;
+  }).join('');
+}
+
+function filterTickets() {
+  const q = document.getElementById('ticketSearch').value.toLowerCase();
+  const st = document.getElementById('fStatus').value;
+  const ti = document.getElementById('fTier').value;
+  const pr = document.getElementById('fPriority').value;
+  const tabMap = { t1:'Tier 1', t2:'Tier 2', 't3-data':'Tier 3 – Data Lead', 't3-ops':'Tier 3 – Operations Lead', 't3-hub':'Tier 3 – Hub Manager', 't3-clin':'Tier 3 – Clinical Lead', hq:'HQ Team' };
+  let data = TICKETS.filter(t => {
+    if (activeTab !== 'all' && t.tier !== tabMap[activeTab]) return false;
+    if (q && !t.subject.toLowerCase().includes(q) && !t.id.toLowerCase().includes(q) && !t.school.toLowerCase().includes(q) && !t.category.toLowerCase().includes(q)) return false;
+    if (st && t.status !== st) return false;
+    if (ti && t.tier !== ti) return false;
+    if (pr && t.priority !== pr) return false;
+    return true;
+  });
+  renderTable(data);
+}
+
+function switchTab(el, tab) {
+  document.querySelectorAll('.tab-pill').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  activeTab = tab;
+  filterTickets();
+}
+
+/* ═══ VIEW TICKET ═══ */
+function viewTicket(id) {
+  const t = TICKETS.find(x => x.id === id);
+  if (!t) return;
+  currentId = id;
+  document.getElementById('dBreadcrumb').textContent = `Tickets / ${t.id}`;
+  document.getElementById('dId').textContent = t.id;
+  document.getElementById('dTitle').textContent = t.subject;
+  document.getElementById('dTierBadge').innerHTML = tierBadgeHtml(t.tier);
+  document.getElementById('dStatusBadge').innerHTML = statusBadge(t.status);
+  document.getElementById('dEscFlow').innerHTML = escFlowHtml(t.tier);
+  document.getElementById('dDesc').textContent = t.desc;
+
+  document.getElementById('dMeta').innerHTML = [
+    ['Category', `<span class="tag">${t.category}</span>`],
+    ['Priority', `<span class="priority-dot p-${t.priority.toLowerCase()}"></span>${t.priority}`],
+    ['School', t.school],
+    ['Submitter', t.submitter],
+    ['Assigned', `<span class="assign-chip"><span class="dot">${t.assigned.split(' ').map(n=>n[0]).join('').slice(0,2)}</span>${t.assigned}</span>`],
+    ['Updated', t.updated],
+  ].map(([l,v])=>`<div class="meta-row"><span class="lbl">${l}</span><span style="display:flex;align-items:center;gap:4px;text-align:right;justify-content:flex-end;flex-wrap:wrap;">${v}</span></div>`).join('');
+
+  document.getElementById('dComments').innerHTML = t.comments.length
+    ? t.comments.map(c=>`<div class="comment"><div class="comment-avatar">${c.initials}</div><div><div class="comment-meta"><strong>${c.user}</strong> · ${c.time}</div><div>${c.text}</div></div></div>`).join('')
+    : '<p style="font-size:13px;color:var(--gray-500);padding:4px 0;">No comments yet.</p>';
+
+  document.getElementById('escSchool').textContent = t.school;
+  showPage('detail');
+}
+
+function addComment() {
+  const inp = document.getElementById('commentInput');
+  const val = inp.value.trim();
+  if (!val) return;
+  const t = TICKETS.find(x => x.id === currentId);
+  if (t) { t.comments.push({user:'Leroy Jenkins',initials:'LJ',time:'Just now',text:val}); }
+  inp.value = '';
+  viewTicket(currentId);
+}
+
+/* ═══ CREATE TICKET ═══ */
+function createTicket() {
+  const subj = document.getElementById('nSubject').value.trim();
+  const tier = document.getElementById('nTier').value;
+  const prio = document.getElementById('nPriority').value;
+  if (!subj || !tier || !prio) { showToast('Please fill in all required fields.'); return; }
+  const newId = `TKT-0${53 + TICKETS.length - 11}`;
+  TICKETS.unshift({
+    id: newId, subject: subj, submitter: 'Leroy Jenkins',
+    school: document.getElementById('nSchool').value || 'Olympic Secondary S.',
+    tier, priority: prio, status: 'Open',
+    assigned: document.getElementById('nAssign').value || 'Leroy Jenkins',
+    updated: 'Just now',
+    category: document.getElementById('nCategory').value || 'Other',
+    desc: document.getElementById('nDesc').value || 'No description provided.',
+    comments: []
+  });
+  closeM('mNewTicket');
+  document.getElementById('nSubject').value = '';
+  document.getElementById('nDesc').value = '';
+  filterTickets();
+  showToast(`Ticket ${newId} created successfully.`);
+}
+
+/* ═══ ESCALATE ═══ */
+function selectEscTier(el, tierKey) {
+  document.querySelectorAll('.tier-option').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedEscTier = tierKey;
+}
+
+function doEscalate() {
+  if (!selectedEscTier) { showToast('Please select an escalation target.'); return; }
+  const reason = document.getElementById('escReason').value;
+  if (!reason) { showToast('Please select a reason.'); return; }
+  const t = TICKETS.find(x => x.id === currentId);
+  if (t) {
+    t.tier = selectedEscTier;
+    t.status = 'Escalated';
+    t.updated = 'Just now';
+    t.comments.push({user:'Leroy Jenkins',initials:'LJ',time:'Just now',text:`Escalated to ${selectedEscTier}. Reason: ${reason}.`});
+  }
+  selectedEscTier = null;
+  document.querySelectorAll('.tier-option').forEach(o => o.classList.remove('selected'));
+  closeM('mEscalate');
+  if (currentId) viewTicket(currentId);
+  filterTickets();
+  showToast(`Ticket escalated to ${t ? t.tier : 'next tier'}.`);
+}
+
+/* ═══ PAGE / MODAL / DROPDOWN ═══ */
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  document.querySelectorAll('.topnav-tab').forEach(t => t.classList.remove('active'));
+  if (name === 'tickets' || name === 'detail') document.getElementById('tabTickets').classList.add('active');
+}
+function openM(id) { document.getElementById(id).classList.add('open'); }
+function closeM(id) { document.getElementById(id).classList.remove('open'); }
+function toggleDD(id) { closeAllDD(); document.getElementById(id).classList.toggle('open'); }
+function closeAllDD() { document.querySelectorAll('.dropdown-menu').forEach(d => d.classList.remove('open')); }
+
+function showCtx(e, id) {
+  e.stopPropagation();
+  ctxId = id;
+  const m = document.getElementById('ctxMenu');
+  m.classList.add('open');
+  const x = Math.min(e.clientX, window.innerWidth - 240);
+  const y = Math.min(e.clientY, window.innerHeight - 280);
+  m.style.left = x + 'px';
+  m.style.top = y + 'px';
+}
+function closeCtx() { document.getElementById('ctxMenu').classList.remove('open'); }
+function ctxView() { if (ctxId) viewTicket(ctxId); closeCtx(); }
+
+document.addEventListener('click', e => {
+  closeCtx();
+  if (!e.target.closest('.dropdown-wrap')) closeAllDD();
+  if (e.target.classList.contains('overlay')) document.querySelectorAll('.overlay.open').forEach(m => m.classList.remove('open'));
+});
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  document.getElementById('toastMsg').textContent = msg;
+  t.style.opacity = '1';
+  setTimeout(() => t.style.opacity = '0', 3200);
+}
+
+function rateStar(groupId, n) {
+  document.querySelectorAll(`#${groupId} .star`).forEach((s,i) => s.classList.toggle('lit', i < n));
+}
+
+/* ═══ INIT ═══ */
+renderTable(TICKETS);
+</script>
+</body>
+</html>
